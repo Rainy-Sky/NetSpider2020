@@ -7,8 +7,12 @@
 
 import scrapy
 
-
 class NetspiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    train = scrapy.Field()
+    time_start = scrapy.Field()
+    time_end = scrapy.Field()
+    time_last = scrapy.Field()
+    info = scrapy.Field()
+
