@@ -14,6 +14,7 @@ class NetspiderItem(scrapy.Item):
     time_start = scrapy.Field()
     time_end = scrapy.Field()
     time_last = scrapy.Field()
+    price = scrapy.Field()
     info = scrapy.Field()
     stations = scrapy.Field()
 

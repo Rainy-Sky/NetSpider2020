@@ -26,8 +26,8 @@ class TrainSpider(scrapy.Spider):
         for div in div_list:
             url = div.xpath('./ul/li/a/@href')[0].extract()
             sec_url = self.base_url + url
-            # print(sec_url)
-            yield scrapy.Request(url=sec_url, callback=self.parse_item, dont_filter=True)
+            price = div.xpath('./ul/li[5]//i/text()')[0].extract()
+            yield scrapy.Request(url=sec_url, callback=self.parse_item, dont_filter=True, meta={'price':price})
 
     def parse_item(self, response):
         print("step2")
@@ -45,6 +45,7 @@ class TrainSpider(scrapy.Spider):
         item['time_start'] = time_start
         item['time_end'] = time_end
         item['time_last'] = time_last
+        item['price'] = response.meta['price']
         item['info'] = info
 
         stations = []
