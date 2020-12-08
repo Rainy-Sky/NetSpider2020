@@ -26,7 +26,7 @@ class TrainSpider(scrapy.Spider):
         for div in div_list:
             url = div.xpath('./ul/li/a/@href')[0].extract()
             sec_url = self.base_url + url
-            print(sec_url)
+            # print(sec_url)
             yield scrapy.Request(url=sec_url, callback=self.parse_item, dont_filter=True)
 
     def parse_item(self, response):
@@ -47,5 +47,23 @@ class TrainSpider(scrapy.Spider):
         item['time_last'] = time_last
         item['info'] = info
 
-        print(train, time_start, time_end, time_last, info)
+        stations = []
+        tr_list = response.xpath('/html/body//div[@class="depth"]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr')
+        for tr in tr_list:
+            station_name =  tr.xpath('./td[2]/a/text()')[0].extract()
+            arrive_time = tr.xpath('./td[4]/text()')[0].extract()
+            leave_time = tr.xpath('./td[5]/text()')[0].extract()
+            wait_time = tr.xpath('./td[6]/text()')[0].extract()
+            miles = tr.xpath('./td[7]/text()')[0].extract()
+
+            station = {}
+            station['station_name'] = station_name
+            station['arrive_time'] = arrive_time
+            station['leave_time'] = leave_time
+            station['wait_time'] = wait_time
+            station['miles'] = miles
+            stations.append(station)
+        item['stations'] = stations
+
+        # print(train, time_start, time_end, time_last, info)
         yield item

@@ -12,6 +12,7 @@ from scrapy import signals
 from pydispatch import dispatcher
 
 class NetspiderPipeline(object):
+    count = 0
     def __init__(self):  # 初始化，打开文件
         dispatcher.connect(self.spider_closed, signals.spider_closed)
         local_time = time.strftime("%Y_%m_%d", time.localtime())
